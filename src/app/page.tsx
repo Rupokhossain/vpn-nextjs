@@ -1,69 +1,84 @@
-import Image from "next/image";
+import React from "react";
+import HeroSlider from "@/components/hero-slider";
+import ProductShowcase from "@/components/product-showcase";
+import HowItWorks from "@/components/how-it-works";
+import FAQSection from "@/components/faq-section";
+import Footer from "@/components/footer";
+import { Zap, ShieldCheck, Lock, Headphones } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="w-full min-h-screen bg-slate-50 flex flex-col justify-between">
+      <div>
+        {/* 1. FULL-WIDTH HERO BANNER SLIDER */}
+        <HeroSlider />
+
+        {/* 2. 4 CLEAN, SPACIOUS FEATURE CARDS */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {[
+              {
+                title: "Instant Auto-Delivery",
+                desc: "Get credentials in seconds 24/7",
+                icon: Zap,
+                color: "text-amber-500 bg-amber-50 border-amber-200/60",
+              },
+              {
+                title: "100% Zero-Logs",
+                desc: "Military-grade 256-bit AES privacy",
+                icon: Lock,
+                color: "text-blue-600 bg-blue-50 border-blue-200/60",
+              },
+              {
+                title: "Ultra-Low Ping",
+                desc: "Optimized for gaming & streaming",
+                icon: ShieldCheck,
+                color: "text-emerald-600 bg-emerald-50 border-emerald-200/60",
+              },
+              {
+                title: "24/7 Live Support",
+                desc: "Telegram & WhatsApp direct help",
+                icon: Headphones,
+                color: "text-purple-600 bg-purple-50 border-purple-200/60",
+              },
+            ].map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={idx}
+                  className="group p-5 sm:p-6 bg-white hover:bg-white border border-slate-200/90 hover:border-blue-300 rounded-2xl shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center gap-4"
+                >
+                  <div
+                    className={`w-12 h-12 rounded-2xl ${item.color} border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}
+                  >
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div className="overflow-hidden">
+                    <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 mt-0.5 truncate">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+        {/* 3. FULL PRODUCT SHOWCASE (DIRECTLY ON HOME PAGE) */}
+        <ProductShowcase />
+
+        {/* 4. HOW IT WORKS (3 SIMPLE STEPS TO BUY & CONNECT) */}
+        <HowItWorks />
+
+        {/* 5. FREQUENTLY ASKED QUESTIONS (FAQ ACCORDION & 24/7 SUPPORT) */}
+        <FAQSection />
+      </div>
+
+      {/* 6. CLEAN MODERN FOOTER */}
+      <Footer />
     </div>
   );
 }
