@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useCurrency } from "@/context/currency-context";
 import { Product } from "@/types/product";
 import {
   X,
@@ -25,6 +26,7 @@ interface ProductModalProps {
 }
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
+  const { formatPrice, formatSecondary } = useCurrency();
   const [quantity, setQuantity] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [purchaseSuccess, setPurchaseSuccess] = useState(false);
@@ -201,7 +203,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             {/* ACTION BUTTONS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
               <Link
-                href="/orders"
+                href="/dashboard/orders"
                 onClick={onClose}
                 className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition-colors"
               >
@@ -265,7 +267,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     You need <strong>₦{totalPriceNGN.toLocaleString()}</strong> to complete this purchase. Please deposit funds into your wallet to proceed.
                   </p>
                   <Link
-                    href="/wallet"
+                    href="/dashboard/wallet"
                     onClick={onClose}
                     className="inline-flex items-center gap-1.5 font-bold text-rose-700 hover:underline pt-1"
                   >
@@ -286,9 +288,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 <div className="border-l border-slate-200">
                   <div className="text-xs text-slate-500 font-medium">Per Quantity</div>
                   <div className="text-sm sm:text-base font-bold text-slate-900 mt-0.5">
-                    ₦{product.priceNGN.toLocaleString()}.00
+                    {formatPrice(product.priceNGN, product.priceUSD)}
                     <span className="text-xs text-slate-500 font-normal ml-1">
-                      (${product.priceUSD.toFixed(2)})
+                      {formatSecondary(product.priceNGN, product.priceUSD)}
                     </span>
                   </div>
                 </div>
@@ -350,9 +352,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 <div className="text-right">
                   <div className="text-xs text-slate-500 font-medium">Total Price</div>
                   <div className="text-xl sm:text-2xl font-black text-slate-900">
-                    ₦{totalPriceNGN.toLocaleString()}.00
+                    {formatPrice(totalPriceNGN, parseFloat(totalPriceUSD))}
                     <span className="text-xs text-slate-500 font-normal ml-1.5">
-                      (${totalPriceUSD})
+                      {formatSecondary(totalPriceNGN, parseFloat(totalPriceUSD))}
                     </span>
                   </div>
                 </div>

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Product } from "@/types/product";
 import { productsData, categoriesList } from "@/data/mock-products";
 import ProductModal from "@/components/product-modal";
+import { useCurrency } from "@/context/currency-context";
 import {
   LayoutGrid,
   ChevronDown,
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 
 export default function ProductShowcase() {
+  const { formatPrice, formatSecondary } = useCurrency();
   const [mounted, setMounted] = useState(false);
   const [allProducts, setAllProducts] = useState<Product[]>(productsData);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -230,9 +232,9 @@ export default function ProductShowcase() {
                           <div>
                             <div className="text-[11px] text-slate-500 font-medium">Per Quantity:</div>
                             <div className="text-lg sm:text-xl font-black text-slate-900">
-                              ₦{product.priceNGN.toLocaleString()}.00
+                              {formatPrice(product.priceNGN, product.priceUSD)}
                               <span className="text-[11px] font-normal text-slate-500 block sm:inline sm:ml-1">
-                                (${product.priceUSD.toFixed(2)})
+                                {formatSecondary(product.priceNGN, product.priceUSD)}
                               </span>
                             </div>
                           </div>

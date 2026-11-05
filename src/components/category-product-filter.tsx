@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Product } from "@/types/product";
 import { productsData, categoriesList } from "@/data/mock-products";
 import ProductModal from "@/components/product-modal";
+import { useCurrency } from "@/context/currency-context";
 import {
   Search,
   Filter,
@@ -19,6 +20,7 @@ import {
 } from "lucide-react";
 
 export default function CategoryProductFilter() {
+  const { formatPrice, formatSecondary } = useCurrency();
   const [allProducts, setAllProducts] = useState<Product[]>(productsData);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -362,9 +364,9 @@ export default function CategoryProductFilter() {
                         <div>
                           <div className="text-[10px] text-slate-400 font-medium">Price:</div>
                           <div className="text-base sm:text-lg font-black text-slate-900">
-                            ₦{product.priceNGN.toLocaleString()}
+                            {formatPrice(product.priceNGN, product.priceUSD)}
                             <span className="text-[11px] font-normal text-slate-500 block sm:inline sm:ml-1">
-                              (${product.priceUSD.toFixed(2)})
+                              {formatSecondary(product.priceNGN, product.priceUSD)}
                             </span>
                           </div>
                         </div>

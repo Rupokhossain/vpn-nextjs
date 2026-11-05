@@ -48,12 +48,17 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/wallet" className="hover:text-blue-600 transition-colors">
+                <Link href="/dashboard" className="hover:text-blue-600 transition-colors">
+                  Customer Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link href="/dashboard/wallet" className="hover:text-blue-600 transition-colors">
                   My Wallet & Deposits
                 </Link>
               </li>
               <li>
-                <Link href="/orders" className="hover:text-blue-600 transition-colors">
+                <Link href="/dashboard/orders" className="hover:text-blue-600 transition-colors">
                   My Orders & Logins
                 </Link>
               </li>

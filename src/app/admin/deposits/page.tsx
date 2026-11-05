@@ -179,7 +179,7 @@ export default function AdminDepositsPage() {
       {/* 3. DEPOSITS TABLE */}
       <div className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-sm">
+          <table className="w-full text-left text-xs sm:text-sm min-w-[680px]">
             <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase text-[10px] tracking-wider">
               <tr>
                 <th className="py-3.5 px-4 sm:px-6">Deposit ID & Time</th>

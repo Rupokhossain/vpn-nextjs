@@ -47,13 +47,39 @@ export default function RegisterPage() {
     setLoading(true);
 
     if (typeof window !== "undefined") {
+      const newUser = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.handle.trim(),
+        registeredAt: new Date().toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        }),
+        role: "customer",
+      };
+
+      localStorage.setItem("current_user", JSON.stringify(newUser));
+      localStorage.setItem("user_name", newUser.name);
+      localStorage.setItem("user_email", newUser.email);
+      localStorage.setItem("user_phone", newUser.phone);
+      localStorage.setItem("user_role", "customer");
       localStorage.setItem("isLoggedIn", "true");
+
+      // Initialize wallet for new user if not already existing
+      const existingBal = localStorage.getItem(`wallet_${newUser.email}`);
+      if (existingBal !== null) {
+        localStorage.setItem("user_wallet_balance", existingBal);
+      } else {
+        localStorage.setItem("user_wallet_balance", "0");
+        localStorage.setItem(`wallet_${newUser.email}`, "0");
+      }
     }
 
-    // Simulated registration (redirects directly to /admin dashboard)
+    // Redirect to customer dashboard
     setTimeout(() => {
       setLoading(false);
-      router.push("/admin");
+      router.push("/dashboard");
     }, 800);
   };
 
@@ -250,18 +276,12 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* SWITCH TO LOGIN & ADMIN */}
-          <div className="pt-3 text-center border-t border-slate-100 space-y-1.5">
+          {/* SWITCH TO LOGIN */}
+          <div className="pt-3 text-center border-t border-slate-100">
             <p className="text-xs text-slate-500">
               Already have an account?{" "}
               <Link href="/login" className="font-bold text-blue-600 hover:text-blue-700">
                 Sign In
-              </Link>
-            </p>
-            <p className="text-xs text-slate-400">
-              Store Owner?{" "}
-              <Link href="/admin" className="font-bold text-blue-600 hover:underline">
-                Open Admin CMS Control ➔
               </Link>
             </p>
           </div>

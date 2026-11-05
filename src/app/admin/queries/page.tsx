@@ -100,8 +100,16 @@ export default function AdminContactQueriesPage() {
   };
 
   const handleToggleStatus = (id: string) => {
-    const updated = tickets.map((t) =>
-      t.id === id ? { ...t, status: t.status === "Resolved" ? "Unread" : ("Resolved" as const) } : t
+    const updated: SupportTicket[] = tickets.map((t) =>
+      t.id === id
+        ? {
+            ...t,
+            status: (t.status === "Resolved" ? "Unread" : "Resolved") as
+              | "Unread"
+              | "In Review"
+              | "Resolved",
+          }
+        : t
     );
     saveTickets(updated);
     if (selectedTicket && selectedTicket.id === id) {
@@ -223,7 +231,7 @@ export default function AdminContactQueriesPage() {
       {/* 4. INQUIRIES DATA TABLE */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-left text-sm min-w-[700px]">
             <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-xs tracking-wider">
               <tr>
                 <th className="py-3 px-4 sm:px-5">Customer Info</th>

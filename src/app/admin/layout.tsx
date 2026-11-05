@@ -139,7 +139,7 @@ export default function AdminLayout({
             className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs"
             onClick={() => setMobileSidebarOpen(false)}
           />
-          <div className="relative w-72 bg-slate-900 text-white p-5 flex flex-col justify-between h-full z-10 shadow-2xl">
+          <div className="relative w-72 max-w-[85%] bg-slate-900 text-white p-5 flex flex-col justify-between h-full max-h-screen overflow-y-auto z-10 shadow-2xl">
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div className="flex items-center gap-2">
@@ -213,29 +213,30 @@ export default function AdminLayout({
         <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between shadow-2xs">
           
           {/* Left: Mobile hamburger + Current Page Title */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 overflow-hidden">
             <button
               onClick={() => setMobileSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+              className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors shrink-0"
               aria-label="Open Navigation"
             >
               <Menu className="w-5 h-5" />
             </button>
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700">
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold text-slate-700 truncate">
               <span className="text-slate-400 hidden sm:inline">Admin CMS</span>
               <ChevronRight className="w-3.5 h-3.5 text-slate-300 hidden sm:inline" />
-              <span className="text-blue-600 font-extrabold">{currentNav.name}</span>
+              <span className="text-blue-600 font-extrabold truncate max-w-[130px] sm:max-w-none">{currentNav.name}</span>
             </div>
           </div>
 
           {/* Right: "Back to Website" Button & Live Store link */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 shrink-0">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-xs hover:shadow-md transition-all active:scale-95"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-xs hover:shadow-md transition-all active:scale-95"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back to Website</span>
+              <span className="hidden sm:inline">Back to Website</span>
+              <span className="sm:hidden">Site</span>
             </Link>
 
             <Link
