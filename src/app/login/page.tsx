@@ -32,11 +32,42 @@ export default function LoginPage() {
       localStorage.setItem("isLoggedIn", "true");
     }
 
-    // Simulated login (redirects directly to /admin dashboard)
+    // Simulated login: admin credentials go to /admin, customers go to /dashboard
     setTimeout(() => {
       setLoading(false);
-      router.push("/admin");
-    }, 800);
+      const isRoleAdmin = email.toLowerCase().includes("admin");
+      if (typeof window !== "undefined") {
+        localStorage.setItem("user_role", isRoleAdmin ? "admin" : "customer");
+        localStorage.setItem("user_email", email);
+
+        if (isRoleAdmin) {
+          localStorage.setItem("user_name", "Admin Manager");
+        } else {
+          const storedUser = localStorage.getItem("current_user");
+          let parsedUser = storedUser ? JSON.parse(storedUser) : null;
+          if (parsedUser && parsedUser.email.toLowerCase() === email.toLowerCase()) {
+            localStorage.setItem("user_name", parsedUser.name);
+          } else {
+            const inferredName = email
+              .split("@")[0]
+              .replace(/[._]/g, " ")
+              .replace(/\b\w/g, (l) => l.toUpperCase());
+            localStorage.setItem("user_name", inferredName);
+          }
+
+          // Sync user wallet balance if previously saved
+          const userBal = localStorage.getItem(`wallet_${email}`);
+          if (userBal !== null) {
+            localStorage.setItem("user_wallet_balance", userBal);
+          }
+        }
+      }
+      if (isRoleAdmin) {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
+    }, 600);
   };
 
   return (
@@ -158,18 +189,12 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* SWITCH TO REGISTER & ADMIN */}
-          <div className="pt-3 text-center border-t border-slate-100 space-y-2">
+          {/* SWITCH TO REGISTER */}
+          <div className="pt-3 text-center border-t border-slate-100">
             <p className="text-xs text-slate-500">
               Don&apos;t have an account yet?{" "}
               <Link href="/register" className="font-bold text-blue-600 hover:text-blue-700">
                 Register here
-              </Link>
-            </p>
-            <p className="text-xs text-slate-400">
-              Store Owner / Admin?{" "}
-              <Link href="/admin" className="font-bold text-blue-600 hover:underline">
-                Open Admin CMS Control ➔
               </Link>
             </p>
           </div>

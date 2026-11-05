@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Footer from "@/components/footer";
+import { useCurrency } from "@/context/currency-context";
 import {
   FileText,
   Search,
@@ -34,9 +36,16 @@ interface UserOrder {
 }
 
 export default function UserOrdersPage() {
+  const router = useRouter();
+  const { formatPrice, formatSecondary } = useCurrency();
   const [orders, setOrders] = useState<UserOrder[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Redirect cleanly to Customer Dashboard orders view
+    router.replace("/dashboard/orders");
+  }, [router]);
 
   useEffect(() => {
     try {
@@ -236,10 +245,10 @@ export default function UserOrdersPage() {
 
                       <div className="text-left sm:text-right">
                         <div className="text-base sm:text-lg font-black text-slate-900">
-                          ₦{order.totalNGN.toLocaleString()}.00
+                          {formatPrice(order.totalNGN, order.totalUSD)}
                         </div>
                         <span className="text-xs text-slate-400 font-normal">
-                          (${order.totalUSD.toFixed(2)})
+                          {formatSecondary(order.totalNGN, order.totalUSD)}
                         </span>
                       </div>
                     </div>

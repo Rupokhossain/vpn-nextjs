@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Footer from "@/components/footer";
+import { useCurrency } from "@/context/currency-context";
 import {
   Wallet,
   ArrowUpRight,
@@ -34,7 +36,14 @@ interface DepositItem {
 }
 
 export default function WalletPage() {
+  const router = useRouter();
+  const { formatPrice, formatSecondary, currency } = useCurrency();
   const [balanceNGN, setBalanceNGN] = useState<number>(25000);
+
+  useEffect(() => {
+    // Redirect to Customer Dashboard wallet view
+    router.replace("/dashboard/wallet");
+  }, [router]);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [selectedMethod, setSelectedMethod] = useState<
     "USDT (TRC-20)" | "Bitcoin (BTC)" | "Direct Bank Transfer"
@@ -196,10 +205,10 @@ export default function WalletPage() {
                 
                 <div className="pt-3">
                   <div className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-                    ₦{balanceNGN.toLocaleString()}.00
+                    {formatPrice(balanceNGN)}
                   </div>
                   <div className="text-sm font-semibold text-slate-300 mt-1 flex items-center gap-2">
-                    <span>≈ ${balanceUSD} USD</span>
+                    <span>≈ {formatSecondary(balanceNGN)}</span>
                     <span className="text-xs text-slate-400 font-normal">
                       (@ 1 USD = ₦{USD_RATE.toLocaleString()})
                     </span>
@@ -598,9 +607,9 @@ export default function WalletPage() {
                         {item.method}
                       </td>
                       <td className="py-4 px-4 sm:px-6 font-bold text-slate-900">
-                        ₦{item.amountNGN.toLocaleString()}.00
+                        {formatPrice(item.amountNGN, item.amountUSD)}
                         <span className="text-xs text-slate-400 font-normal ml-1">
-                          (${item.amountUSD})
+                          {formatSecondary(item.amountNGN, item.amountUSD)}
                         </span>
                       </td>
                       <td className="py-4 px-4 sm:px-6 font-mono text-xs text-slate-500 truncate max-w-[180px]">
